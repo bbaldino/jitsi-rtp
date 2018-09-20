@@ -20,10 +20,6 @@ import org.jitsi.rtp.extensions.subBuffer
 import java.nio.ByteBuffer
 
 
-fun Short.isOneByteHeaderType(): Boolean = this.compareTo(RtpOneByteHeaderExtension.COOKIE) == 0
-fun Short.isTwoByteHeaderType(): Boolean = this.compareTo(RtpTwoByteHeaderExtension.COOKIE) == 0
-
-
 //TODO: handle one-byte header type 15:
 //The local identifier value 15 is reserved for future extension and
 //   MUST NOT be used as an identifier.  If the ID value 15 is
@@ -40,8 +36,8 @@ class RtpHeaderExtensions {
         fun parse(buf: ByteBuffer): MutableMap<Int, RtpHeaderExtension> {
             val headerExtensionType = buf.getShort()
             val headerExtensionParser = when {
-                headerExtensionType.isOneByteHeaderType() -> ::RtpOneByteHeaderExtension
-                headerExtensionType.isTwoByteHeaderType() -> ::RtpTwoByteHeaderExtension
+                RtpOneByteHeaderExtension.headerExtensionTypeMatches(headerExtensionType) -> ::RtpOneByteHeaderExtension
+                RtpTwoByteHeaderExtension.headerExtensionTypeMatches(headerExtensionType) -> ::RtpTwoByteHeaderExtension
                 else -> throw Exception("unrecognized extension type: ${headerExtensionType.toString(16)}")
             }
             val lengthInWords = buf.getShort()

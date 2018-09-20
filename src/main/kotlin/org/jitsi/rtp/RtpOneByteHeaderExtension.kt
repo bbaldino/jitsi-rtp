@@ -59,6 +59,9 @@ open class RtpOneByteHeaderExtension : RtpHeaderExtension {
             buf.putBits(0, 0, id.toUByte(), 4)
         }
 
+        fun headerExtensionTypeMatches(headerExtensionType: Short): Boolean
+                = COOKIE.compareTo(headerExtensionType) == 0
+
         /**
          * Gets the length of the data chunk of this extension, in bytes.  Note that this
          * does not return the literal value in the buffer, but the logical length of
