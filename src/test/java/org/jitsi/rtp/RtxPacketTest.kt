@@ -1,17 +1,27 @@
 package org.jitsi.rtp
 
 import io.kotlintest.specs.ShouldSpec
+import io.kotlintest.should
+import io.kotlintest.shouldBe
 import java.nio.ByteBuffer
 
 internal class RtxPacketTest : ShouldSpec() {
+    private val osn = 0x179d;
+
     val pkt = ByteBuffer.wrap(byteArrayOf(
+        // RTP Header
         0x90.toByte(), 0x60.toByte(), 0x43.toByte(), 0xCC.toByte(),
         0x29.toByte(), 0xAB.toByte(), 0xC0.toByte(), 0xFE.toByte(),
         0x13.toByte(), 0xE9.toByte(), 0x20.toByte(), 0xDC.toByte(),
 
+        // Extension
         0xBE.toByte(), 0xDE.toByte(), 0x00.toByte(), 0x01.toByte(),
         0x51.toByte(), 0x00.toByte(), 0x0B.toByte(), 0x00.toByte(),
-        0x17.toByte(), 0x9D.toByte(), 0x90.toByte(), 0x80.toByte(),
+
+        // OSN
+        (osn shr 8).toByte(), osn.toByte(),
+
+        0x90.toByte(), 0x80.toByte(),
         0xE1.toByte(), 0x14.toByte(), 0x10.toByte(), 0xE0.toByte(),
         0x00.toByte(), 0x9D.toByte(), 0x01.toByte(), 0x2A.toByte(),
         0x80.toByte(), 0x02.toByte(), 0x68.toByte(), 0x01.toByte(),
@@ -54,9 +64,9 @@ internal class RtxPacketTest : ShouldSpec() {
     init {
         "parsing an rtx packet" {
             val rtxPacket = RtxPacket(pkt)
-            println("original seq num: ${rtxPacket.originalSequenceNumber}")
-
-            val rtpPacket = rtxPacket.toRtpPacket()
+            should("parse OSN correctly") {
+                rtxPacket.originalSequenceNumber shouldBe osn
+            }
         }
     }
 }
