@@ -54,7 +54,7 @@ internal class RtxPacketTest : ShouldSpec() {
     init {
         "parsing an rtx packet" {
             val rtxPacket = RtxPacket(pkt)
-            println("original seq num: ${rtxPacket.originalSequenceNmber}")
+            println("original seq num: ${rtxPacket.originalSequenceNumber}")
 
             val rtpPacket = rtxPacket.toRtpPacket()
         }
