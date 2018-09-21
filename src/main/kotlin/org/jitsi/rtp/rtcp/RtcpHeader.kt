@@ -96,7 +96,7 @@ open class RtcpHeader {
         fun setVersion(buf: ByteBuffer, version: Int) = buf.putBits(0, 0, version.toByte(), 2)
 
         fun hasPadding(buf: ByteBuffer): Boolean = buf.get(0).getBitAsBool(2)
-        fun setPadding(buf: ByteBuffer, hasPadding: Boolean) = buf.putBitAsBoolean(0, 3, hasPadding)
+        fun setPadding(buf: ByteBuffer, hasPadding: Boolean) = buf.putBitAsBoolean(0, 2, hasPadding)
 
         fun getReportCount(buf: ByteBuffer): Int = buf.get(0).getBits(3, 5).toUInt()
         fun setReportCount(buf: ByteBuffer, reportCount: Int) = buf.putBits(0, 3, reportCount.toByte(), 5)
