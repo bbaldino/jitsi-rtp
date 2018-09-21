@@ -252,7 +252,7 @@ open class RtpHeader {
             appendln("hasExtension: $hasExtension")
             appendln("csrcCount: $csrcCount")
             appendln("marker: $marker")
-            appendln("packetType: $payloadType")
+            appendln("payloadType: $payloadType")
             appendln("sequenceNumber: $sequenceNumber")
             appendln("timestamp: $timestamp")
             appendln("ssrc: $ssrc")

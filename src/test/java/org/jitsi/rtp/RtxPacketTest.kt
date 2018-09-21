@@ -18,9 +18,10 @@ internal class RtxPacketTest : ShouldSpec() {
         0xBE.toByte(), 0xDE.toByte(), 0x00.toByte(), 0x01.toByte(),
         0x51.toByte(), 0x00.toByte(), 0x0B.toByte(), 0x00.toByte(),
 
-        // OSN
+        // RTP payload (OSN)
         (osn shr 8).toByte(), osn.toByte(),
 
+        // RTP payload (remainder)
         0x90.toByte(), 0x80.toByte(),
         0xE1.toByte(), 0x14.toByte(), 0x10.toByte(), 0xE0.toByte(),
         0x00.toByte(), 0x9D.toByte(), 0x01.toByte(), 0x2A.toByte(),
