@@ -25,6 +25,9 @@ import unsigned.toUByte
 import unsigned.toUInt
 import java.nio.ByteBuffer
 
+fun Short.isOneByteHeaderType(): Boolean
+        = this.compareTo(RtpOneByteHeaderExtension.COOKIE) == 0
+
 // https://tools.ietf.org/html/rfc5285#section-4.1
 //  0                   1                   2                   3
 //  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -58,9 +61,6 @@ open class RtpOneByteHeaderExtension : RtpHeaderExtension {
         fun setId(id: Int, buf: ByteBuffer) {
             buf.putBits(0, 0, id.toUByte(), 4)
         }
-
-        fun headerExtensionTypeMatches(headerExtensionType: Short): Boolean
-                = COOKIE.compareTo(headerExtensionType) == 0
 
         /**
          * Gets the length of the data chunk of this extension, in bytes.  Note that this

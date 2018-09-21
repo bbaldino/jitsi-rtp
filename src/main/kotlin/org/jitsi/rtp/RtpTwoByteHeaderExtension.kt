@@ -18,6 +18,13 @@ package org.jitsi.rtp
 import org.jitsi.rtp.extensions.toHex
 import java.nio.ByteBuffer
 
+/**
+ *  Checks if this [Short] matches the IDs used by [RtpTwoByteHeaderExtension].
+ *  See https://tools.ietf.org/html/rfc5285#section-4.3
+ */
+fun Short.isTwoByteHeaderType(): Boolean
+        = RtpTwoByteHeaderExtension.COOKIE.compareTo(this.toInt() and 0xfff0) == 0
+
 // https://tools.ietf.org/html/rfc5285#section-4.1
 // 0                   1                   2                   3
 // 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -42,13 +49,6 @@ class RtpTwoByteHeaderExtension(val buf: ByteBuffer) : RtpHeaderExtension() {
         const val HEADER_SIZE = 2
         const val COOKIE: Short = 0x1000
 
-        /**
-         *  Checks if `headerExtensionType` matches the IDs used by
-         *  [RtpTwoByteHeaderExtension]. See
-         * https://tools.ietf.org/html/rfc5285#section-4.3
-         */
-        fun headerExtensionTypeMatches(headerExtensionType: Short): Boolean
-                = COOKIE.compareTo(headerExtensionType.toInt() and 0xfff0) == 0
     }
 
     init {

@@ -36,8 +36,8 @@ class RtpHeaderExtensions {
         fun parse(buf: ByteBuffer): MutableMap<Int, RtpHeaderExtension> {
             val headerExtensionType = buf.getShort()
             val headerExtensionParser = when {
-                RtpOneByteHeaderExtension.headerExtensionTypeMatches(headerExtensionType) -> ::RtpOneByteHeaderExtension
-                RtpTwoByteHeaderExtension.headerExtensionTypeMatches(headerExtensionType) -> ::RtpTwoByteHeaderExtension
+                headerExtensionType.isOneByteHeaderType() -> ::RtpOneByteHeaderExtension
+                headerExtensionType.isTwoByteHeaderType() -> ::RtpTwoByteHeaderExtension
                 else -> throw Exception("unrecognized extension type: ${headerExtensionType.toString(16)}")
             }
             val lengthInWords = buf.getShort()
